@@ -5,6 +5,7 @@ $blue: #4c43d4;
 body {
   font-family: 'Roboto', sans-serif;
   background-color: $blue;
+  text-align: center;
   color: #fff;
   padding: 0;
   margin: 0;
@@ -20,7 +21,7 @@ button {
 }
 
 .app {
-  font-size: 20px;
+  font-size: 22px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,7 +58,7 @@ button {
       }
 
       .btn-move {
-    	  color: #fff;
+        color: #fff;
         &.active {
           font-weight: bold;
           color: $green;
@@ -68,12 +69,12 @@ button {
 }
 
 .status-message {
-	margin-bottom: 30px;
-	font-size: 1.2rem;
-	font-weight: lighter;
-	span {
-	  font-weight: normal;
-	}
+  margin-bottom: 30px;
+  font-size: 1.2rem;
+  font-weight: lighter;
+  span {
+    font-weight: normal;
+  }
 }
 
 .btn-reset {
@@ -111,19 +112,19 @@ button {
         border-right: none;
       }
       &.winning {
-	    animation: scaleText 1.4s infinite;
-	    @keyframes scaleText {
-	      0% {
-	        transform: 2.5rem;
-	      }
-	      50% {
-	        font-size: 3.5rem;
-	      }
-	      100% {
-	        font-size: 2.5rem;
-	      }
-	    }
-	  }
+        animation: scaleText 1.4s infinite;
+        @keyframes scaleText {
+          0% {
+            transform: 2.5rem;
+          }
+          50% {
+            font-size: 3.5rem;
+          }
+          100% {
+            font-size: 2.5rem;
+          }
+        }
+      }
     }
   }
 }
