@@ -1,36 +1,64 @@
 import './styles.scss';
 import { useState } from 'react';
 import Board from './Components/Board';
+import RenderMessage from './Components/RenderMessage';
+import History from './Components/History';
 import { calculateWinner } from './Winner';
 
 function App() {
-  const [squares, setSquares] = useState(Array(9).fill(null));
-  const [isXnext, setIsXNext] = useState(false);
+  const [history, setHistory] = useState([
+    { squares: Array(9).fill(null), isXNext: false },
+  ]);
+  const [currentMove, setCurrentMove] = useState(0);
+  const gamingBoard = history[currentMove];
 
-  const winner = calculateWinner(squares);
-  const nextPlayer = isXnext ? 'X' : '0';
-
-  const statusMessage = winner
-    ? `Winner is ${winner}`
-    : `Next Player is ${nextPlayer}`;
+  const winner = calculateWinner(gamingBoard.squares);
+  console.log({ history, currentMove });
 
   const handleSqueareClick = clickedPosition => {
-    if (squares[clickedPosition] || winner) return;
+    if (gamingBoard.squares[clickedPosition] || winner) return;
 
-    setSquares(squares => {
-      return squares.map((squeareValue, position) => {
-        if (clickedPosition === position) {
-          return isXnext ? 'X' : '0';
+    setHistory(currentHistory => {
+      const isTraversing = currentMove + 1 !== currentHistory.length;
+
+      const lastGamingState = isTraversing
+        ? currentHistory[currentMove]
+        : history[history.length - 1];
+
+      const nextSquaresState = lastGamingState.squares.map(
+        (squeareValue, position) => {
+          if (clickedPosition === position) {
+            return lastGamingState.isXNext ? 'X' : '0';
+          }
+
+          return squeareValue;
         }
-        return squeareValue;
+      );
+      const base = isTraversing
+        ? currentHistory.slice(0, currentHistory.indexOf(lastGamingState) + 1)
+        : currentHistory;
+
+      return base.concat({
+        squares: nextSquaresState,
+        isXNext: !lastGamingState.isXNext,
       });
     });
-    setIsXNext(currentIsXNext => !currentIsXNext);
+    setCurrentMove(move => move + 1);
   };
+
+  const moveTo = move => {
+    setCurrentMove(move);
+  };
+
   return (
     <div className="app">
-      <h2>{statusMessage}</h2>
-      <Board handleSqueareClick={handleSqueareClick} squares={squares} />
+      <RenderMessage winner={winner} gamingBoard={gamingBoard} />
+      <Board
+        handleSqueareClick={handleSqueareClick}
+        squares={gamingBoard.squares}
+      />
+      <h3>Current Game History</h3>
+      <History history={history} moveTo={moveTo} currentMove={currentMove} />
     </div>
   );
 }
