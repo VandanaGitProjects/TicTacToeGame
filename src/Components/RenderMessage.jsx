@@ -1,17 +1,50 @@
 const RenderMessage = ({ winner, gamingBoard }) => {
-  const { squares, isXnext } = gamingBoard;
+  const { squares, isXNext } = gamingBoard;
   const noMovesLeft = squares.every(squareValue => squareValue !== null);
-  const nextPlayer = isXnext ? 'X' : '0';
+  const nextPlayer = isXNext ? 'X' : '0';
 
   const renderStatusMessage = () => {
+    console.log(`isXnext is = ${isXNext}`);
+    console.log(`Next Player is = ${nextPlayer}`);
     if (winner) {
-      return <div>Winner is {winner}</div>;
+      return (
+        <>
+          <h2>
+            Winner is{' '}
+            <span className={winner === 'X' ? 'text-green' : 'text-orange'}>
+              {winner}
+            </span>
+          </h2>
+        </>
+      );
     }
     if (!winner && noMovesLeft) {
-      return <div>Game Draw</div>;
+      return (
+        <>
+          <h2>
+            <span className="text-orange">
+              <b>0</b>
+            </span>{' '}
+            and{' '}
+            <span className="text-green">
+              <b>X</b>
+            </span>{' '}
+            Tied
+          </h2>
+        </>
+      );
     }
     if (!winner && !noMovesLeft) {
-      return <div>Next Player is {nextPlayer}</div>;
+      return (
+        <>
+          <h2>
+            Next Player is {'  '}
+            <span className={isXNext ? 'text-green' : 'text-orange'}>
+              <b>{nextPlayer}</b>
+            </span>
+          </h2>
+        </>
+      );
     }
 
     return null;
